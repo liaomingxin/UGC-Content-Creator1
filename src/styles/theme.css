@@ -1,0 +1,55 @@
+/* 背景渐变动画 */
+body {
+    background: linear-gradient(135deg, #ffe4e9 0%, #fff 100%);
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    transition: background 0.3s ease;
+}
+
+body:hover {
+    background: linear-gradient(135deg, #fff 0%, #ffe4e9 100%);
+}
+
+/* 卡片渐入效果 */
+.card {
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 按钮悬停动画 */
+button {
+    background-color: #ff5f7f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #ff789a;
+    transform: scale(1.05);
+}
+
+/* 输入框样式 */
+.input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}

@@ -285,7 +285,7 @@ export default {
       }
       this.startLoading('generate');
       try {
-        const response = await axios.post("http://localhost:8080/api/content/generate", {
+        const response = await axios.post("https://ugc-content-creator.com/api/content/generate", {
           product: this.productInfo,
           style: this.selectedStyle,
           length: this.selectedLength,

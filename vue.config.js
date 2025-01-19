@@ -15,4 +15,5 @@ module.exports = defineConfig({
       ],
     },
   },
+  outputDir: 'D:/UGC-Content-Creator1/dist',
 })

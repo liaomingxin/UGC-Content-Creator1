@@ -12,7 +12,7 @@
     "axios": "^1.7.9",
     "cnpm": "^9.4.0",
     "core-js": "^3.8.3",
-    "element-plus": "^2.x.x",
+    "element-plus": "^2.3.0",
     "ugc3": "file:",
     "vue": "^3.2.13",
     "vue-i18n": "^9.14.2"

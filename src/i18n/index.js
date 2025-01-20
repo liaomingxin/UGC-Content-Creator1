@@ -5,7 +5,12 @@ const messages = {
     nav: {
       title: 'UGC-Content-Creator',
       linkGenerator: 'Link Generator',
-      styleMimic: 'Style Mimic'
+      styleMimic: 'Style Mimic',
+      contact: 'Contact Us',
+      contactInfo: 'Email: 3022097366@qq.com',
+      contactEmail: 'Email',
+      contactPhone: 'Phone',
+      contactDescription: 'If you have any suggestions or questions, please feel free to contact us. Let\'s make this website better together.'
     },
     link: {
       title: 'Link Style Generator',
@@ -13,7 +18,7 @@ const messages = {
       productInfo: {
         title: 'Product Title',
         price: 'Product Price',
-        imageUrl: 'Product Image URL',
+        imageUrl: 'Image URL',
         titlePlaceholder: 'Please enter product title',
         pricePlaceholder: 'Please enter product price',
         imagePlaceholder: 'Please enter product image URL'
@@ -32,10 +37,10 @@ const messages = {
         elegant: 'Elegant'
       },
       length: {
-        label: 'Content Length',
-        short: 'Short (within 100 words)',
-        medium: 'Medium (about 200 words)',
-        long: 'Long (over 300 words)'
+        label: 'Length',
+        short: '100 words',
+        medium: '200 words',
+        long: '> 300 words'
       },
       language: {
         label: 'Language',
@@ -51,7 +56,16 @@ const messages = {
         noTitle: 'Title information not obtained, please add',
         noPrice: 'Price information not obtained, please add',
         noImage: 'Image information not obtained, please add',
-        enterUrl: 'Please enter product URL!'
+        enterUrl: 'Please enter product URL!',
+        manualInput: 'You can input manually',
+        step1: 'Step 1: Enter the product link to get product information, or you can skip this step and manually enter product information in Step 2',
+        step2: {
+          initial: 'Step 2: You can manually input product title, price and image URL',
+          failed: 'Step 2: Failed to fetch information, please manually input product title, price and image URL (image URL is optional)',
+          incomplete: 'Step 2: Information incomplete, please input: ',
+          success: 'Step 2: Information fetched successfully, you can proceed to step 3 to select style'
+        },
+        step3: 'Step 3: Please select your preferred content style'
       },
       error: {
         crawl: 'Failed to get product information, please fill in manually',
@@ -60,11 +74,19 @@ const messages = {
       },
       validation: {
         incomplete: 'Please fill in all required information'
-      }
+      },
+      pageTitle: 'Link Style Generator',
+      pageDescription: 'Transform your product links into engaging content. This tool helps you create professional and attractive product descriptions with just a few clicks.',
+      stepsTitle: 'How to use:',
+      step1: 'Enter your product URL and click "Get Product Info" to automatically fetch product details',
+      step2: 'Review and edit the product information if needed',
+      step3: 'Choose your preferred content style, length, and language',
+      step4: 'Click "Generate Content" to create your customized product description',
+      howToUse: 'How to use it'
     },
     style: {
       title: 'Style Mimic Generator',
-      templatePlaceholder: 'Enter template text',
+      templatePlaceholder: 'Please enter your template text here',
       sceneLabel: 'Scene Selection',
       scenes: {
         default: 'default',
@@ -76,7 +98,7 @@ const messages = {
         food: 'food',
         emotion: 'emotion'
       },
-      lengthLabel: 'Content Length',
+      lengthLabel: 'Length',
       lengths: {
         words40: '40 words',
         words50: '50 words',
@@ -102,21 +124,36 @@ const messages = {
       analysis: {
         wordCount: 'Word Count',
         sentiment: 'Sentiment Analysis'
-      }
+      },
+      pageTitle: 'Style Mimic Generator',
+      pageDescription: 'Create content that matches your favorite writing style. Simply input a template text, and our AI will generate new content while maintaining the same tone and style.',
+      stepsTitle: 'How to use:',
+      step1: 'Enter your product URL and click "Get Product Info" to automatically fetch product details',
+      step2: 'Review and edit the product information if needed',
+      step3: 'Choose your preferred content style, length, and language',
+      step4: 'Click "Generate Content" to create your customized product description',
+      howToUse: 'How to use it'
     },
     common:{
       word: 'words',
       keyword: 'keyword',
       generate_fail: "generate the article failed",
       connect_fail: "connect the network failed",
-      reconnect_num: "current number of connection"
+      reconnect_num: "current number of connection",
+      copy: 'Copy',
+      copied: 'Copied'
     }
   },
   zh: {
     nav: {
       title: 'UGC内容创作器',
       linkGenerator: '链接生成',
-      styleMimic: '风格仿写'
+      styleMimic: '风格仿写',
+      contact: '联系我们',
+      contactInfo: '邮箱：3022097366@qq.com',
+      contactEmail: '邮箱',
+      contactPhone: '电话',
+      contactDescription: '如果您有任何建议和问题，欢迎联系我们，我们一起让这个网站变得更好'
     },
     link: {
       title: '链接样式生成器',
@@ -124,7 +161,7 @@ const messages = {
       productInfo: {
         title: '商品标题',
         price: '商品价格',
-        imageUrl: '商品图片链接',
+        imageUrl: '图片链接',
         titlePlaceholder: '请输入商品标题',
         pricePlaceholder: '请输入商品价格',
         imagePlaceholder: '请输入商品图片链接'
@@ -144,9 +181,9 @@ const messages = {
       },
       length: {
         label: '文案长度',
-        short: '简短(100字内)',
-        medium: '适中(200字左右)',
-        long: '详细(300字以上)'
+        short: '100字',
+        medium: '200字',
+        long: '>300字'
       },
       language: {
         label: '语言选择',
@@ -162,7 +199,16 @@ const messages = {
         noTitle: '暂未获取标题信息，请您补充',
         noPrice: '暂未获取价格信息，请您补充',
         noImage: '暂未获取图片信息，请您补充',
-        enterUrl: '请输入商品链接！'
+        enterUrl: '请输入商品链接！',
+        manualInput: '您可以手动输入信息',
+        step1: '步骤1：请输入商品链接获取商品信息，或者您可以跳过此步骤，在步骤2中手动输入商品信息',
+        step2: {
+          initial: '步骤2：你可以手动输入商品标题、价格和图片URL',
+          failed: '步骤2：抓取信息失败，请手动输入商品标题、价格和图片URL，其中图片URL可选',
+          incomplete: '步骤2：抓取信息缺失，请补充：',
+          success: '步骤2：信息抓取成功，可直接在步骤三选择风格'
+        },
+        step3: '步骤3：请选择您想生成文案风格'
       },
       error: {
         crawl: '获取商品信息失败，请手动填写商品信息',
@@ -171,11 +217,19 @@ const messages = {
       },
       validation: {
         incomplete: '请填写完整信息'
-      }
+      },
+      pageTitle: '链接样式生成器',
+      pageDescription: '将您的商品链接转化为吸引人的内容。这个工具可以帮助您只需点击几下，就能创建专业且有吸引力的商品描述。',
+      stepsTitle: '使用步骤：',
+      step1: '输入商品链接并点击"获取商品信息"自动获取商品详情',
+      step2: '检查并根据需要编辑商品信息',
+      step3: '选择您喜欢的文案风格、长度和语言',
+      step4: '点击"生成爆款文案"创建您的定制商品描述',
+      howToUse: '如何使用'
     },
     style: {
       title: '风格仿写生成器',
-      templatePlaceholder: '请输入模板文本',
+      templatePlaceholder: '请在这里输入模板文案',
       sceneLabel: '场景选择',
       scenes: {
         default: '默认场景',
@@ -213,7 +267,15 @@ const messages = {
       analysis: {
         wordCount: '字数统计',
         sentiment: '情感倾向'
-      }
+      },
+      pageTitle: '风格仿写生成器',
+      pageDescription: '创建与您喜爱的写作风格相匹配的内容。只需输入模板文本，我们的AI就能生成保持相同语气和风格的新内容。',
+      stepsTitle: '使用步骤：',
+      step1: '输入商品链接并点击"获取商品信息"自动获取商品详情',
+      step2: '检查并根据需要编辑商品信息',
+      step3: '选择您喜欢的文案风格、长度和语言',
+      step4: '点击"生成爆款文案"创建您的定制商品描述',
+      howToUse: '如何使用'
     },
     common:{
       word: '字',
@@ -221,6 +283,14 @@ const messages = {
       generate_fail: "生成爆款文案失败",
       connect_fail: "连接失败",
       reconnect_num: "当前连接请求次数",
+      copy: '复制',
+      copied: '已复制',
+      network_error: '网络连接失败，请检查网络后重试',
+      auth_error: '认证失败，请重新登录',
+      permission_error: '没有操作权限',
+      service_not_found: '服务未找到',
+      server_error: '服务器错误，请稍后重试',
+      unknown_error: '发生未知错误，请稍后重试'
     }
   }
 }

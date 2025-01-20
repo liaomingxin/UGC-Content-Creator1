@@ -1,7 +1,13 @@
 <template>
   <div class="container">
-    <h2>{{ t('style.title') }}</h2>
     <div class="card">
+      <!-- 页面标题和说明 -->
+      <div class="page-header">
+        <h1 class="page-title">{{ t('style.pageTitle') }}</h1>
+        <div class="page-description">
+          <p class="description-text">{{ t('style.pageDescription') }}</p>
+        </div>
+      </div>
       <div class="flex-container">
         <!-- 左侧模板文案输入区 -->
         <div class="left-panel">
@@ -13,7 +19,7 @@
         </div>
 
         <!-- 右侧配置区 -->
-        <div class="right-panel">
+        <div class="panel right-panel">
           <!-- 场景选择 -->
           <div class="config-section">
             <label class="option-label">{{ t('style.sceneLabel') }}</label>
@@ -214,8 +220,13 @@ export default {
 
     async generateText() {
       if (!this.isFormValid) {
-        ElMessage.warning(this.t('style.validation.incomplete'))
-        return
+        ElMessage({
+          message: this.t('style.validation.incomplete'),
+          type: 'warning',
+          duration: 3000,
+          showClose: true
+        });
+        return;
       }
 
       this.startLoading()
@@ -311,6 +322,7 @@ export default {
       }
       
       this.stopLoading()
+
     },
     async copyContent() {
       try {
@@ -338,22 +350,21 @@ export default {
 </script>
 
 <style scoped>
-/* 基础样式 */
+/* 修改容器和卡片样式 */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  min-height: calc(100vh - 120px);
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
+/* 面板布局 */
 .flex-container {
   display: flex;
   gap: 50px;
@@ -372,7 +383,8 @@ export default {
   border: 1px solid #e0e0e0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   border-radius: 12px;
-  padding: 16px;
+  padding: 24px;
+  background: white;
 }
 
 /* 输入区域样式 */
@@ -412,17 +424,16 @@ export default {
 
 .option-buttons {
   display: flex;
-  gap: 10px;
-  justify-content: flex-start;
-  padding-right: 0;
-  flex-wrap: nowrap;
+  gap: 8px;
+  justify-content: space-between;
+  flex-wrap: wrap;
   width: 100%;
 }
 
 .scene-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 12px;
   list-style: none;
   padding: 0;
   margin: 16px 0;
@@ -474,7 +485,8 @@ export default {
 }
 
 .length-button {
-  padding: 8px 12px;
+  flex: 1;
+  padding: 8px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   background: white;
@@ -482,7 +494,6 @@ export default {
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 14px;
-  flex: 1;
   min-width: 0;
   text-align: center;
   white-space: nowrap;
@@ -502,9 +513,8 @@ export default {
 
 .generate-button {
   width: 100%;
+  margin: 8px 0;
   padding: 12px;
-  margin-top: 0;
-  margin-bottom: 25px;
   border: none;
   border-radius: 8px;
   color: white;
@@ -671,7 +681,35 @@ export default {
 
 /* 调整配置区域间距 */
 .config-section {
-  margin-bottom: 25px;
+  margin-bottom: 24px;
   padding: 0;
+}
+
+/* 添加标题和说明的样式 */
+.page-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-description {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.description-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #666;
+  margin: 0;
 }
 </style> 

@@ -15,6 +15,7 @@ module.exports = defineConfig({
       ],
     },
   },
+<<<<<<< HEAD
   // devServer: {
   //   proxy: {
   //     '/api': {
@@ -23,4 +24,15 @@ module.exports = defineConfig({
   //     }
   //   }
   // }
+=======
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:后端端口',
+        changeOrigin: true
+      }
+    }
+  }
+  outputDir: 'D:/UGC-Content-Creator1/dist',
+>>>>>>> ea5901c4ea0a1eb88b818b36ecf6b41f139893b3
 })

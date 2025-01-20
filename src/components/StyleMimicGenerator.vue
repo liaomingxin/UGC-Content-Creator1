@@ -1,50 +1,52 @@
 <template>
   <div class="container">
+    <h2>{{ t('style.title') }}</h2>
     <div class="card">
       <div class="flex-container">
         <!-- 左侧模板文案输入区 -->
         <div class="left-panel">
-          <div class="template-section">
-            <div class="input-group">
-              <label>模板文案</label>
-              <textarea
-                v-model="templateText"
-                placeholder="请输入您想要模仿的文案风格示例..."
-                class="template-textarea"
-                rows="20"
-              ></textarea>
-            </div>
-          </div>
+          <textarea
+            v-model="templateText"
+            :placeholder="t('style.templatePlaceholder')"
+            class="template-textarea"
+          ></textarea>
         </div>
 
         <!-- 右侧配置区 -->
         <div class="right-panel">
           <!-- 场景选择 -->
           <div class="config-section">
-            <label>关联场景</label>
-            <div class="scene-grid">
-              <button
-                v-for="scene in scenes"
-                :key="scene.value"
-                :class="['scene-button', { active: selectedScene === scene.value }]"
-                @click="selectedScene = scene.value"
-              >
-                {{ scene.label }}
-              </button>
-            </div>
+            <label class="option-label">{{ t('style.sceneLabel') }}</label>
+            <ul class="scene-grid">
+              <li v-for="scene in scenes" :key="scene.value">
+                <div 
+                  class="scene-card"
+                  :class="{ 'active': selectedScene === scene.value }"
+                  @click="selectedScene = scene.value"
+                >
+                  <img 
+                    :src="scene.imageUrl" 
+                    :alt="t(`style.scenes.${scene.value}`)" 
+                    :title="t(`style.scenes.${scene.value}`)" 
+                    class="scene-image"
+                  />
+                  <span class="scene-label">{{ t(`style.scenes.${scene.value}`) }}</span>
+                </div>
+              </li>
+            </ul>
           </div>
 
           <!-- 文案长度选择 -->
           <div class="config-section">
-            <label>文案长度</label>
-            <div class="length-buttons">
-              <button
-                v-for="length in lengths"
+            <label class="option-label">{{ t('style.lengthLabel') }}（{{ t('common.word') }}）</label>
+            <div class="option-buttons">
+              <button 
+                v-for="length in lengths" 
                 :key="length.value"
                 :class="['length-button', { active: selectedLength === length.value }]"
                 @click="selectedLength = length.value"
               >
-                {{ length.label }}
+                {{ length.value }}
               </button>
             </div>
           </div>
@@ -54,7 +56,7 @@
             :disabled="!isFormValid"
             class="generate-button"
           >
-            生成文案
+            {{ t('style.button.generate') }}
           </button>
         </div>
       </div>
@@ -63,11 +65,11 @@
       <div v-if="responseText" class="result-section">
         <div class="result-header">
           <div class="result-info">
-            <h3>生成结果</h3>
+            <h3>{{ t('style.title') }}</h3>
             <div class="result-meta">
-              <span class="word-count">字数：{{ wordCount }}字</span>
+              <span class="word-count">{{ t('style.analysis.wordCount') }}：{{ wordCount }}</span>
               <span class="sentiment" :class="sentiment">
-                情感倾向：{{ getSentimentText(sentiment) }}
+                {{ t('style.analysis.sentiment') }}：{{ getSentimentText(sentiment) }}
               </span>
             </div>
           </div>
@@ -76,12 +78,12 @@
             class="copy-button"
             :class="{ 'copied': copied }"
           >
-            {{ copied ? '已复制' : '复制文案' }}
+            {{ copied ? t('style.button.copied') : t('style.button.copy') }}
           </button>
         </div>
         <div class="result-content">{{ responseText }}</div>
         <div v-if="keywords.length" class="keywords-section">
-          <span class="keywords-label">关键词：</span>
+          <span class="keywords-label">{{t('common.keyword')}}：</span>
           <div class="keywords-list">
             <span v-for="(keyword, index) in keywords" 
                   :key="index" 
@@ -93,7 +95,7 @@
         </div>
       </div>
 
-      <!-- 添加加载状态遮罩 -->
+      <!-- 加载状态遮罩 -->
       <div v-if="loading" class="loading-overlay">
         <div class="loading-content">
           <el-progress 
@@ -111,11 +113,16 @@
 <script>
 import axios from 'axios'
 import { ElProgress, ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 
 export default {
   name: 'StyleMimicGenerator',
   components: {
     ElProgress
+  },
+  setup() {
+    const { t } = useI18n()
+    return { t }
   },
   data() {
     return {
@@ -125,29 +132,54 @@ export default {
       responseText: '',
       copied: false,
       scenes: [
-        { label: '默认场景', value: 'default' },
-        { label: '美妆场景', value: 'beauty' },
-        { label: '穿搭场景', value: 'fashion' },
-        { label: '家居场景', value: 'home' },
-        { label: '健身场景', value: 'fitness' },
-        { label: '旅行场景', value: 'travel' },
-        { label: '美食场景', value: 'food' },
-        { label: '情感场景', value: 'emotion' }
+        { 
+          value: 'default',
+          imageUrl: 'https://www.kandouyin.com/wenan/9999.jpg'
+        },
+        { 
+          value: 'beauty',
+          imageUrl: 'https://www.kandouyin.com/wenan/1.jpg'
+        },
+        { 
+          value: 'fashion',
+          imageUrl: 'https://www.kandouyin.com/wenan/2.jpg'
+        },
+        { 
+          value: 'home',
+          imageUrl: 'https://www.kandouyin.com/wenan/3.jpg'
+        },
+        { 
+          value: 'fitness',
+          imageUrl: 'https://www.kandouyin.com/wenan/4.jpg'
+        },
+        { 
+          value: 'travel',
+          imageUrl: 'https://www.kandouyin.com/wenan/5.jpg'
+        },
+        { 
+          value: 'food',
+          imageUrl: 'https://www.kandouyin.com/wenan/6.jpg'
+        },
+        { 
+          value: 'emotion',
+          imageUrl: 'https://www.kandouyin.com/wenan/7.jpg'
+        }
       ],
       lengths: [
-        { label: '40字', value: '40' },
-        { label: '50字', value: '50' },
-        { label: '100字', value: '100' },
-        { label: '200字', value: '200' },
-        { label: '300字', value: '300' }
+        { value: '40', gradient: 'linear-gradient(135deg, #FF9A9E 0%, #FAD0C4 100%)' },
+        { value: '50', gradient: 'linear-gradient(135deg, #84FAB0 0%, #8FD3F4 100%)' },
+        { value: '100', gradient: 'linear-gradient(135deg, #A6C1EE 0%, #FBC2EB 100%)' },
+        { value: '200', gradient: 'linear-gradient(135deg, #F6D365 0%, #FDA085 100%)' },
+        { value: '300', gradient: 'linear-gradient(135deg, #5EE7DF 0%, #B490CA 100%)' }
       ],
+
       loading: false,
       progressWidth: 0,
       loadingText: '',
       progressTimer: null,
       wordCount: 0,
       sentiment: 'neutral',
-      keywords: [],
+      keywords: []
     }
   },
   computed: {
@@ -162,7 +194,7 @@ export default {
     startLoading() {
       this.loading = true
       this.progressWidth = 0
-      this.loadingText = '正在生成文案，预计需要15-20秒...'
+      this.loadingText = this.t('style.loading.generate')
       
       this.progressTimer = setInterval(() => {
         if (this.progressWidth < 90) {
@@ -182,14 +214,14 @@ export default {
 
     async generateText() {
       if (!this.isFormValid) {
-        ElMessage.warning("请填写完整信息！")
+        ElMessage.warning(this.t('style.validation.incomplete'))
         return
       }
 
       this.startLoading()
       let retryCount = 0
       const maxRetries = 3
-      
+           
       while (retryCount < maxRetries) {
         try {
           // 记录请求参数
@@ -211,6 +243,7 @@ export default {
           }
           
           console.log('发送请求数据:', {
+            // url: "http://localhost:8080/api/content/generate-mimic",
             url: "https://ugc-content-creator.com/api/content/generate-mimic",
             method: 'POST',
             data: requestData,
@@ -218,6 +251,7 @@ export default {
           })
 
           const response = await axios.post(
+            // "http://localhost:8080/api/content/generate-mimic",
             "https://ugc-content-creator.com/api/content/generate-mimic",
             requestData
           )
@@ -238,7 +272,7 @@ export default {
             this.sentiment = result.sentiment
             this.keywords = result.keywords || []
           } else {
-            throw new Error(response.data.message || '生成失败')
+            throw new Error(response.data.message || this.t('common.generate_fail'))
           }
 
           break
@@ -265,12 +299,12 @@ export default {
           
           if (retryCount === maxRetries) {
             ElMessage.error({
-              message: `生成文案失败 (${error.response?.status || 'unknown'}): ${error.response?.data?.message || error.message}`,
+              message: `${this.t('common.generate_fail')} (${error.response?.status || 'unknown'}): ${error.response?.data?.message || error.message}`,
               duration: 5000,
               showClose: true
             })
           } else {
-            this.loadingText = `连接失败 (${error.response?.status || 'unknown'})，正在进行第${retryCount}次重试...`
+            this.loadingText = `${this.t('common.connect_fail')} (${error.response?.status || 'unknown'})，${this.t('common.reconnect_num')} ：${retryCount}...`
             await new Promise(resolve => setTimeout(resolve, 2000))
           }
         }
@@ -287,15 +321,17 @@ export default {
         }, 2000)
       } catch (err) {
         console.error('复制失败：', err)
+        ElMessage.error(this.t('link.error.copy'));
       }
     },
     getSentimentText(sentiment) {
       const sentimentMap = {
-        positive: '积极',
-        neutral: '中性',
-        negative: '消极'
+        positive: 'positive',
+        neutral: 'neutral',
+        negative: 'negative'
       }
-      return sentimentMap[sentiment] || '未知'
+      // return sentimentMap[sentiment] || '未知'
+      return this.t(`style.sentiment.${sentimentMap[sentiment] || 'unknown'}`)
     },
   }
 }
@@ -312,7 +348,7 @@ export default {
 .card {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
-  padding: 30px;
+  padding: 25px;
   box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
   backdrop-filter: blur(4px);
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -320,78 +356,192 @@ export default {
 
 .flex-container {
   display: flex;
-  gap: 30px;
+  gap: 50px;
+  align-items: stretch;
+  min-height: 450px;
 }
 
-.left-panel, .right-panel {
-  flex: 1;
+.left-panel {
+  flex: 1.3;
+  display: flex;
+  flex-direction: column;
+}
+
+.right-panel {
+  flex: 0.7;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  padding: 16px;
 }
 
 /* 输入区域样式 */
+.template-section,
+.input-group {
+  display: none;
+}
+
 .template-textarea {
+  flex: 1;
   width: 100%;
+  margin: 0;
   padding: 15px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  resize: vertical;
+  resize: none;
   font-size: 1rem;
   line-height: 1.6;
+  min-height: 0;
+  background: white;
+  height: 100%;
 }
 
 /* 按钮样式 */
+.option-section {
+  margin-bottom: 25px;
+}
+
+.option-label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  padding: 0;
+}
+
+.option-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  padding-right: 0;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
 .scene-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
 }
 
-.scene-button {
-  aspect-ratio: 1;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
-  color: white;
+.scene-card {
+  position: relative;
+  display: block;
+  width: 100%;
   cursor: pointer;
+  overflow: hidden;
+  border-radius: 12px;
+  background: white;
+  padding: 6px;
+  border: 1px solid #e0e0e0;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.length-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+.scene-card:hover {
+  transform: translateY(-2px);
+  border-color: #007AFF;
+}
+
+.scene-card.active {
+  border: 2px solid #007AFF;
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+.scene-image {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.scene-label {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  border-radius: 0 0 4px 4px;
+  backdrop-filter: blur(4px);
 }
 
 .length-button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
-  background: #f0f0f0;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
   color: #666;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 14px;
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.length-button:hover {
+  background: #f8f9fa;
+  border-color: #d0d0d0;
+}
+
+.length-button.active {
+  border-color: #f56c6c;
+  color: #f56c6c;
+  background: white;
+  box-shadow: 0 2px 4px rgba(245, 108, 108, 0.1);
 }
 
 .generate-button {
   width: 100%;
-  padding: 16px;
-  margin-top: 20px;
+  padding: 12px;
+  margin-top: 0;
+  margin-bottom: 25px;
   border: none;
   border-radius: 8px;
-  background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
+/* 添加禁用状态样式 */
+.generate-button:disabled {
+  background: #e0e0e0;  /* 灰色背景 */
+  opacity: 1;  /* 保持完全不透明 */
+  cursor: not-allowed;
+  box-shadow: none;  /* 移除阴影 */
+}
+
+/* 添加启用状态样式 */
+.generate-button:not(:disabled) {
+  background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);  /* 蓝色渐变背景 */
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.2);  /* 添加阴影效果 */
+}
+
+.generate-button:not(:disabled):hover {
+  transform: translateY(-1px);  /* 悬浮效果 */
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);  /* 增强阴影 */
+}
+
 /* 结果区域样式 */
 .result-section {
   margin-top: 30px;
-  padding: 20px;
-  background: #f8f9fa;
-  border-radius: 8px;
+  padding: 24px;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .result-header {
@@ -446,6 +596,9 @@ export default {
   color: #333;
   margin-bottom: 20px;
   white-space: pre-wrap;
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
 }
 
 .keywords-section {
@@ -480,7 +633,7 @@ export default {
 }
 
 /* 激活状态样式 */
-.scene-button.active,
+.scene-card.active,
 .length-button.active {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
@@ -516,9 +669,9 @@ export default {
   font-size: 14px;
 }
 
-/* 禁用状态样式 */
-.generate-button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
+/* 调整配置区域间距 */
+.config-section {
+  margin-bottom: 25px;
+  padding: 0;
 }
 </style> 

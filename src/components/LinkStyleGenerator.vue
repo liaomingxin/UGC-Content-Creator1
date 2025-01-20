@@ -17,7 +17,7 @@
         <div class="input-group">
           <input 
             v-model="productUrl" 
-            placeholder="请输入商品链接" 
+            :placeholder="t('link.urlPlaceholder')"
             class="modern-input"
           />
           <button 
@@ -25,7 +25,7 @@
             :disabled="loading"
             class="modern-button"
           >
-            <span v-if="!loading">获取商品信息</span>
+            <span v-if="!loading">{{ t('link.button.crawl') }}</span>
             <span v-else class="loader"></span>
           </button>
         </div>
@@ -34,44 +34,44 @@
       <!-- 商品信息编辑区 -->
       <div class="product-info-section">
         <div class="info-group">
-          <label>商品标题</label>
+          <label>{{ t('link.productInfo.title') }}</label>
           <input 
             v-model="productInfo.title" 
-            placeholder="请输入商品标题" 
+            :placeholder="t('link.productInfo.titlePlaceholder')"
             class="modern-input"
           />
           <span class="hint" v-if="!productInfo.title && hasTriedCrawling">
-            暂未获取标题信息，请您补充
+            {{ t('link.hint.noTitle') }}
           </span>
         </div>
 
         <div class="info-group">
-          <label>商品价格</label>
+          <label>{{ t('link.productInfo.price') }}</label>
           <input 
             v-model="productInfo.price" 
-            placeholder="请输入商品价格" 
+            :placeholder="t('link.productInfo.pricePlaceholder')"
             class="modern-input"
           />
           <span class="hint" v-if="!productInfo.price && hasTriedCrawling">
-            暂未获取价格信息，请您补充
+            {{ t('link.hint.noPrice') }}
           </span>
         </div>
 
         <div class="info-group">
-          <label>商品图片链接</label>
+          <label>{{ t('link.productInfo.imageUrl') }}</label>
           <input 
             v-model="productInfo.imageUrl" 
-            placeholder="请输入商品图片链接" 
+            :placeholder="t('link.productInfo.imagePlaceholder')"
             class="modern-input"
           />
           <img 
             v-if="productInfo.imageUrl" 
             :src="productInfo.imageUrl" 
-            alt="商品图片" 
+            :alt="t('link.productInfo.title')"
             class="preview-image"
           />
           <span class="hint" v-if="!productInfo.imageUrl && hasTriedCrawling">
-            暂未获取图片信息，请您补充
+            {{ t('link.hint.noImage') }}
           </span>
         </div>
       </div>
@@ -80,7 +80,7 @@
       <div class="generation-options">
         <!-- 文案风格选择 -->
         <div class="option-section">
-          <label class="option-label">文案风格</label>
+          <label class="option-label">{{ t('link.style.label') }}</label>
           <div class="option-buttons">
             <button 
               v-for="style in styles" 
@@ -89,14 +89,14 @@
               @click="selectedStyle = style.value"
               :style="{ background: style.gradient }"
             >
-              {{ style.label }}
+              {{ t(`link.style.${style.value}`) }}
             </button>
           </div>
         </div>
 
         <!-- 文案长度选择 -->
         <div class="option-section">
-          <label class="option-label">文案长度</label>
+          <label class="option-label">{{ t('link.length.label') }}</label>
           <div class="option-buttons">
             <button 
               v-for="len in lengths" 
@@ -105,14 +105,14 @@
               @click="selectedLength = len.value"
               :style="{ background: len.gradient }"
             >
-              {{ len.label }}
+              {{ t(`link.length.${len.value}`) }}
             </button>
           </div>
         </div>
 
         <!-- 语言选择 -->
         <div class="option-section">
-          <label class="option-label">语言选择</label>
+          <label class="option-label">{{ t('link.language.label') }}</label>
           <div class="option-buttons">
             <button 
               v-for="lang in languages" 
@@ -121,7 +121,7 @@
               @click="selectedLanguage = lang.value"
               :style="{ background: lang.gradient }"
             >
-              {{ lang.label }}
+              {{ t(`link.language.${lang.value}`) }}
             </button>
           </div>
         </div>
@@ -131,20 +131,20 @@
           :disabled="loading || !isFormValid"
           class="modern-button generate-button"
         >
-          生成文案
+          {{ t('link.button.generate') }}
         </button>
       </div>
 
       <!-- 生成结果 -->
       <div v-if="responseText" class="result-section">
         <div class="result-header">
-          <h3>生成结果</h3>
+          <h3>{{ t('link.title') }}</h3>
           <button 
             @click="copyContent" 
             class="copy-button"
             :class="{ 'copied': copied }"
           >
-            {{ copied ? '已复制' : '复制文案' }}
+            {{ copied ? t('link.button.copied') : t('link.button.copy') }}
           </button>
         </div>
         <div class="result-content">
@@ -160,8 +160,15 @@
 
 <script>
 import axios from "axios";
+import { useI18n } from 'vue-i18n'
+import { ElMessage } from 'element-plus'
 
 export default {
+  name: 'LinkStyleGenerator',
+  setup() {
+    const { t } = useI18n()
+    return { t }
+  },
   data() {
     return {
       productUrl: "",
@@ -171,17 +178,17 @@ export default {
         imageUrl: "",
         productUrl: ""
       },
-      selectedStyle: "",
+      selectedStyle: "professional",
       selectedLength: "",
       selectedLanguage: "",
       responseText: "",
       loading: false,
       hasTriedCrawling: false,
       styles: [
-        { label: '专业正式', value: 'professional', gradient: 'linear-gradient(135deg, #1E90FF 0%, #4169E1 100%)' },
-        { label: '轻松随意', value: 'casual', gradient: 'linear-gradient(135deg, #00C9FF 0%, #92FE9D 100%)' },
-        { label: '幽默诙谐', value: 'humorous', gradient: 'linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%)' },
-        { label: '优雅格调', value: 'elegant', gradient: 'linear-gradient(135deg, #A18CD1 0%, #FBC2EB 100%)' }
+        { value: 'professional', gradient: 'linear-gradient(135deg, #1E90FF 0%, #4169E1 100%)' },
+        { value: 'casual', gradient: 'linear-gradient(135deg, #00C9FF 0%, #92FE9D 100%)' },
+        { value: 'humorous', gradient: 'linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%)' },
+        { value: 'elegant', gradient: 'linear-gradient(135deg, #A18CD1 0%, #FBC2EB 100%)' }
       ],
       lengths: [
         { label: '简短(100字内)', value: 'short', gradient: 'linear-gradient(135deg, #FF9A9E 0%, #FAD0C4 100%)' },
@@ -234,9 +241,7 @@ export default {
     startLoading(action) {
       this.loading = true;
       this.progressWidth = 0;
-      this.loadingText = action === 'crawl' 
-        ? '请稍等，正在获取商品信息，约需3~5秒' 
-        : '请稍等，正在生成文案，约需3~5秒';
+      this.loadingText = this.t(`link.loading.${action}`);
       
       // 模拟进度条
       this.progressTimer = setInterval(() => {
@@ -257,12 +262,13 @@ export default {
 
     async crawlProduct() {
       if (!this.productUrl) {
-        alert("请输入商品链接！");
+        ElMessage.warning(this.t('link.hint.enterUrl'));
         return;
       }
       this.startLoading('crawl');
       try {
-        const response = await axios.post("http://ugc-content-creator.com/api/content/crawl", {
+        const response = await axios.post("https://ugc-content-creator.com/api/content/crawl", {
+        // const response = await axios.post("http://localhost:8080/api/content/crawl", {
           productUrl: this.productUrl
         });
         this.productInfo = {
@@ -272,7 +278,7 @@ export default {
         };
       } catch (error) {
         console.error("获取商品信息失败：", error);
-        alert("获取商品信息失败，请手动填写商品信息");
+        ElMessage.error(this.t('link.error.crawl'));
       } finally {
         this.stopLoading();
       }
@@ -280,22 +286,22 @@ export default {
     
     async generateText() {
       if (!this.isFormValid) {
-        alert("请填写完整信息！");
+        ElMessage.warning(this.t('link.validation.incomplete'));
         return;
       }
       this.startLoading('generate');
       try {
         const response = await axios.post("https://ugc-content-creator.com/api/content/generate", {
+        // const response = await axios.post("http://localhost:8080/api/content/generate", {
           product: this.productInfo,
           style: this.selectedStyle,
           length: this.selectedLength,
           language: this.selectedLanguage
         });
         this.responseText = response.data;
-        this.originalContent = response.data;
       } catch (error) {
         console.error("生成文案失败：", error);
-        alert("生成文案失败，请稍后重试！");
+        ElMessage.error(this.t('link.error.generation'));
       } finally {
         this.stopLoading();
       }
@@ -310,6 +316,7 @@ export default {
         }, 2000);
       } catch (err) {
         console.error('复制失败:', err);
+        ElMessage.error(this.t('link.error.copy'));
       }
     },
 

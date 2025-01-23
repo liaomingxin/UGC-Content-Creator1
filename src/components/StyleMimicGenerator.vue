@@ -235,7 +235,6 @@ export default {
            
       while (retryCount < maxRetries) {
         try {
-          // 记录请求参数
           const requestData = {
             template: this.templateText,
             scene: this.selectedScene,
@@ -254,16 +253,16 @@ export default {
           }
           
           console.log('发送请求数据:', {
-            // url: "http://localhost:8080/api/content/generate-mimic",
-            url: "https://ugc-content-creator.com/api/content/generate-mimic",
+            url: "http://localhost:8080/api/content/generate-mimic",
+            // url: "https://ugc-content-creator.com/api/content/generate-mimic",
             method: 'POST',
             data: requestData,
             timestamp: new Date().toISOString()
           })
 
           const response = await axios.post(
-            // "http://localhost:8080/api/content/generate-mimic",
-            "https://ugc-content-creator.com/api/content/generate-mimic",
+            "http://localhost:8080/api/content/generate-mimic",
+            // "https://ugc-content-creator.com/api/content/generate-mimic",
             requestData
           )
 
@@ -276,14 +275,14 @@ export default {
             timestamp: new Date().toISOString()
           })
 
-          if (response.data.code === 200 && response.data.data) {
+          if (response.data.success && response.data.data) {
             const result = response.data.data
             this.responseText = result.content
-            this.wordCount = result.wordCount
-            this.sentiment = result.sentiment
+            this.wordCount = result.word_count || 0
+            this.sentiment = result.sentiment || 'neutral'
             this.keywords = result.keywords || []
           } else {
-            throw new Error(response.data.message || this.t('common.generate_fail'))
+            throw new Error(response.data.error || this.t('common.generate_fail'))
           }
 
           break

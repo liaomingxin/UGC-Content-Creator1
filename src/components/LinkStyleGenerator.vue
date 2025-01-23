@@ -358,18 +358,35 @@ export default {
       
       this.startLoading('crawl');
       try {
-        const response = await axios.post("https://ugc-content-creator.com/api/content/crawl", {
-        // const response = await axios.post("http://localhost:8080/api/content/crawl", {
-          productUrl: this.productUrl
+        // const response = await axios.post("https://ugc-content-creator.com/api/content/crawl", {
+        const response = await axios.post("http://localhost:8080/api/content/crawl", {
+          product_url: this.productUrl  // 改为下划线命名匹配后端API
         });
+        
+        console.log('Received response:', response.data);
+        
+        // 检查响应数据
+        if (!response.data) {
+          throw new Error('Empty response data');
+        }
+        
+        // 更新商品信息，保持前端使用驼峰命名
         this.productInfo = {
-          ...this.productInfo,
-          ...response.data,
-          productUrl: this.productUrl
+          title: response.data.title || '',
+          price: response.data.price || '',
+          imageUrl: response.data.image_url || '',  // 从下划线命名转换为驼峰命名
+          productUrl: response.data.product_url || this.productUrl  // 从下划线命名转换为驼峰命名
         };
+        
+        if (this.productInfo.title) {
+          ElMessage({
+            message: this.t('link.success.crawl'),
+            type: 'success',
+            duration: 3000
+          });
+        }
       } catch (error) {
         console.error("获取商品信息失败：", error);
-        // 根据错误类型显示不同的错误信息
         let errorMessage;
         if (error.code === 'ECONNABORTED' || !error.response) {
           errorMessage = this.t('common.network_error');
@@ -419,20 +436,35 @@ export default {
       }
       this.startLoading('generate');
       try {
-        const response = await axios.post("https://ugc-content-creator.com/api/content/generate", {
-        // const response = await axios.post("http://localhost:8080/api/content/generate", {
-          product: this.productInfo,
+        const response = await axios.post("http://localhost:8080/api/content/generate", {
+          product: {
+            title: this.productInfo.title,
+            price: this.productInfo.price,
+            image_url: this.productInfo.imageUrl,
+            product_url: this.productInfo.productUrl
+          },
           style: this.selectedStyle,
           length: this.selectedLength,
           language: this.selectedLanguage
         });
-        this.responseText = response.data;
+
+        // 直接使用后端返回的content，不做修改
+        this.responseText = response.data.content;
+        
+        // 更新商品信息
+        if (response.data.product) {
+          this.productInfo = {
+            title: response.data.product.title,
+            price: response.data.product.price,
+            imageUrl: response.data.product.image_url,
+            productUrl: response.data.product.product_url
+          };
+        }
+
       } catch (error) {
         console.error("生成文案失败：", error);
-        // 清空结果内容
         this.responseText = '';
         
-        // 根据错误类型显示不同的错误信息
         let errorMessage;
         if (error.code === 'ECONNABORTED' || !error.response) {
           errorMessage = this.t('common.network_error');
@@ -812,8 +844,8 @@ label {
 .content-image {
   max-width: 100%;
   height: auto;
-  margin: 15px 0;
   border-radius: 8px;
+  margin: 16px 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -912,13 +944,12 @@ label {
   color: #007AFF;
   text-decoration: none;
   font-weight: 500;
-  transition: all 0.3s ease;
-  border-bottom: 1px solid transparent;
+  transition: color 0.3s ease;
 }
 
 .product-link:hover {
   color: #0056b3;
-  border-bottom-color: #0056b3;
+  text-decoration: underline;
 }
 
 /* 修改复制功能，确保复制的是纯文本 */
@@ -1375,5 +1406,66 @@ label {
     width: 100%;
     max-width: none;
   }
+}
+
+.content-image-wrapper {
+  margin: 20px 0;
+  text-align: center;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f8f9fa;
+  padding: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.content-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.content-image:hover {
+  transform: scale(1.02);
+}
+
+.result-content {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  line-height: 1.8;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.product-link {
+  display: inline-flex;
+  align-items: center;
+  color: #007AFF;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 6px;
+  background: rgba(0, 122, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.product-link:hover {
+  color: #0056b3;
+  background: rgba(0, 122, 255, 0.15);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.product-link::after {
+  content: '→';
+  margin-left: 6px;
+  transition: transform 0.3s ease;
+}
+
+.product-link:hover::after {
+  transform: translateX(4px);
 }
 </style>

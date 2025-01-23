@@ -1,4 +1,4 @@
-const { defineConfig } = require('@vue/cli-service')
+const { defineConfig } = require('@vue/cli-service');
 module.exports = defineConfig({
   transpileDependencies: true,
   configureWebpack: {
@@ -18,10 +18,10 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://localhost:后端端口',
-        changeOrigin: true
-      }
-    }
-  }
-  outputDir: 'D:/UGC-Content-Creator1/dist',
-})
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      },
+    },
+  },
+  outputDir: './dist',
+});

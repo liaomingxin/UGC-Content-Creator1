@@ -27,7 +27,8 @@ const messages = {
         crawl: 'Get Product Info',
         generate: 'Generate Content',
         copy: 'Copy',
-        copied: 'Copied'
+        copied: 'Copied',
+        preview: 'Preview Image'
       },
       style: {
         label: 'Style',
@@ -113,7 +114,8 @@ const messages = {
       button: {
         generate: 'Generate',
         copy: 'Copy',
-        copied: 'Copied'
+        copied: 'Copied',
+        preview: 'Preview Image'
       },
       sentiment:{
         positive: 'positive',
@@ -168,9 +170,10 @@ const messages = {
       },
       button: {
         crawl: '获取商品信息',
-        generate: '生成爆款文案',
+        generate: '生成内容',
         copy: '复制',
-        copied: '已复制'
+        copied: '已复制',
+        preview: '预览图片'
       },
       style: {
         label: '文案风格',
@@ -193,7 +196,7 @@ const messages = {
       },
       loading: {
         crawl: '请稍等，正在获取商品信息，约需3~5秒',
-        generate: '请稍等，正在生成爆款文案，约需3~5秒'
+        generate: '请稍等，正在生成内容，约需3~5秒'
       },
       hint: {
         noTitle: '暂未获取标题信息，请您补充',
@@ -212,7 +215,7 @@ const messages = {
       },
       error: {
         crawl: '获取商品信息失败，请手动填写商品信息',
-        generation: '生成爆款文案失败，请稍后重试',
+        generation: '生成内容失败，请稍后重试',
         copy: '复制失败'
       },
       validation: {
@@ -224,7 +227,7 @@ const messages = {
       step1: '输入商品链接并点击"获取商品信息"自动获取商品详情',
       step2: '检查并根据需要编辑商品信息',
       step3: '选择您喜欢的文案风格、长度和语言',
-      step4: '点击"生成爆款文案"创建您的定制商品描述',
+      step4: '点击"生成内容"创建您的定制商品描述',
       howToUse: '如何使用'
     },
     style: {
@@ -251,12 +254,13 @@ const messages = {
       },
       loading: {
         crawl: '请稍等，正在获取商品信息，约需3~5秒',
-        generate: '请稍等，正在生成爆款文案，约需3~5秒'
+        generate: '请稍等，正在生成内容，约需3~5秒'
       },
       button: {
-        generate: '生成爆款文案',
+        generate: '生成内容',
         copy: '复制',
-        copied: '已复制'
+        copied: '已复制',
+        preview: '预览图片'
       },
       sentiment:{
         positive: '积极',
@@ -274,13 +278,13 @@ const messages = {
       step1: '输入商品链接并点击"获取商品信息"自动获取商品详情',
       step2: '检查并根据需要编辑商品信息',
       step3: '选择您喜欢的文案风格、长度和语言',
-      step4: '点击"生成爆款文案"创建您的定制商品描述',
+      step4: '点击"生成内容"创建您的定制商品描述',
       howToUse: '如何使用'
     },
     common:{
       word: '字',
       keyword: '关键词',
-      generate_fail: "生成爆款文案失败",
+      generate_fail: "生成内容失败",
       connect_fail: "连接失败",
       reconnect_num: "当前连接请求次数",
       copy: '复制',

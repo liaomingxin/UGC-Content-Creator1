@@ -122,266 +122,272 @@ export default {
 </script>
 
 <style>
-/* 引入全局样式 */
-@import './styles/theme.css';
-
-.app-title {
-  text-align: center;
-  margin: 20px 0;
+html {
+  overflow-y: scroll;
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 2.5rem;
-  font-weight: 700;
-}
+#app {
+  /* 引入全局样式 */
+  @import './styles/theme.css';
 
-.nav-tabs {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin: 20px 0 30px;
-}
+  .app-title {
+    text-align: center;
+    margin: 20px 0;
+  }
 
-.nav-tab {
-  padding: 12px 24px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.9);
-  color: #666;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+  .gradient-text {
+    background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
 
-.nav-tab:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
+  .nav-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0 30px;
+  }
 
-.nav-tab.active {
-  background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
-  color: white;
-  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
-}
+  .nav-tab {
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+    color: #666;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
-/* 添加新的样式 */
-.top-toolbar {
-  display: flex;
-  justify-content: flex-end;
-  padding: 10px 20px;
-}
+  .nav-tab:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
 
-/* 修改语言选择器样式 */
-.language-selector {
-  padding: 8px 24px 8px 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  background: white;
-  color: #333;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  min-width: 80px;
-  width: fit-content;
-}
+  .nav-tab.active {
+    background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+  }
 
-.language-selector:hover {
-  border-color: #007AFF;
-}
+  /* 添加新的样式 */
+  .top-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+  }
 
-.language-selector:focus {
-  outline: none;
-  border-color: #007AFF;
-  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
-}
+  /* 修改语言选择器样式 */
+  .language-selector {
+    padding: 8px 24px 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background: white;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    min-width: 80px;
+    width: fit-content;
+  }
 
-/* 调整选项样式 */
-.language-selector option {
-  padding: 8px;
-}
+  .language-selector:hover {
+    border-color: #007AFF;
+  }
 
-/* 导航栏样式 */
-.nav-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-  height: 64px;
-  background: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
+  .language-selector:focus {
+    outline: none;
+    border-color: #007AFF;
+    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
+  }
 
-/* Logo样式 */
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+  /* 调整选项样式 */
+  .language-selector option {
+    padding: 8px;
+  }
 
-.logo-image {
-  height: 32px;
-  width: auto;
-}
+  /* 导航栏样式 */
+  .nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 64px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
 
-.logo-text {
-  font-size: 1.2rem;
-  font-weight: 600;
-  background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+  /* Logo样式 */
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
-/* 导航链接样式 */
-.nav-links {
-  display: flex;
-  gap: 16px;
-}
+  .logo-image {
+    height: 32px;
+    width: auto;
+  }
 
-.nav-link {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
-  background: transparent;
-  color: #666;
-  font-size: 15px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+  .logo-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-.nav-link:hover {
-  color: #007AFF;
-  background: rgba(0, 122, 255, 0.1);
-}
+  /* 导航链接样式 */
+  .nav-links {
+    display: flex;
+    gap: 16px;
+  }
 
-.nav-link.active {
-  color: #007AFF;
-  background: rgba(0, 122, 255, 0.1);
-  font-weight: 500;
-}
+  .nav-link {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #666;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
 
-/* 右侧工具栏样式 */
-.nav-tools {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
+  .nav-link:hover {
+    color: #007AFF;
+    background: rgba(0, 122, 255, 0.1);
+  }
 
-/* 联系我们按钮样式 */
-.contact-button {
-  padding: 8px 16px;
-  border: 1px solid #007AFF;
-  border-radius: 6px;
-  background: white;
-  color: #007AFF;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+  .nav-link.active {
+    color: #007AFF;
+    background: rgba(0, 122, 255, 0.1);
+    font-weight: 500;
+  }
 
-.contact-button:hover {
-  background: #007AFF;
-  color: white;
-}
+  /* 右侧工具栏样式 */
+  .nav-tools {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
 
-/* 添加弹窗相关样式 */
-.contact-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1100;
-}
+  /* 联系我们按钮样式 */
+  .contact-button {
+    padding: 8px 16px;
+    border: 1px solid #007AFF;
+    border-radius: 6px;
+    background: white;
+    color: #007AFF;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
 
-.contact-modal {
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
+  .contact-button:hover {
+    background: #007AFF;
+    color: white;
+  }
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
+  /* 添加弹窗相关样式 */
+  .contact-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
+  }
 
-.modal-header h3 {
-  margin: 0;
-  color: #333;
-  font-size: 1.2rem;
-}
+  .contact-modal {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
 
-.close-button {
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: #666;
-  cursor: pointer;
-  padding: 0;
-  line-height: 1;
-}
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
 
-.contact-item {
-  margin-bottom: 16px;
-}
+  .modal-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.2rem;
+  }
 
-.contact-label {
-  display: block;
-  color: #666;
-  margin-bottom: 4px;
-}
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+  }
 
-.copy-group {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+  .contact-item {
+    margin-bottom: 16px;
+  }
 
-.contact-value {
-  font-size: 1.1rem;
-  color: #333;
-}
+  .contact-label {
+    display: block;
+    color: #666;
+    margin-bottom: 4px;
+  }
 
-.copy-button {
-  padding: 4px 12px;
-  border: 1px solid #007AFF;
-  border-radius: 4px;
-  background: white;
-  color: #007AFF;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+  .copy-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
-.copy-button:hover {
-  background: #007AFF;
-  color: white;
-}
+  .contact-value {
+    font-size: 1.1rem;
+    color: #333;
+  }
 
-.contact-description {
-  color: #666;
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  text-align: center;
+  .copy-button {
+    padding: 4px 12px;
+    border: 1px solid #007AFF;
+    border-radius: 4px;
+    background: white;
+    color: #007AFF;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .copy-button:hover {
+    background: #007AFF;
+    color: white;
+  }
+
+  .contact-description {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: center;
+  }
 }
 </style>

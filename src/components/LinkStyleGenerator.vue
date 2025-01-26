@@ -116,13 +116,22 @@
                 class="modern-input"
               />
             </div>
-            <div class="image-preview-wrapper">
-              <img 
-                v-if="productInfo.imageUrl" 
-                :src="productInfo.imageUrl" 
-                :alt="t('link.productInfo.title')"
-                class="preview-image"
-              />
+            <div class="preview-button-wrapper">
+              <button 
+                class="preview-button"
+                v-if="productInfo.imageUrl"
+                @mouseover="showPreview = true"
+                @mouseleave="showPreview = false"
+              >
+                {{ t('link.button.preview') }}
+              </button>
+              <div class="preview-popup" v-show="showPreview && productInfo.imageUrl">
+                <img 
+                  :src="productInfo.imageUrl" 
+                  :alt="t('link.productInfo.title')"
+                  class="preview-image"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -261,7 +270,8 @@ export default {
       progressTimer: null,
       copied: false,
       originalContent: '',
-      showSteps: false
+      showSteps: false,
+      showPreview: false
     };
   },
   computed: {
@@ -277,10 +287,10 @@ export default {
       
       let content = this.responseText;
       
-      // 处理图片显示
+      // 处理图片显示，添加样式类
       content = content.replace(
         /!\[.*?\]\((.*?)\)/g, 
-        '<img src="$1" alt="商品图片" class="content-image"/>'
+        '<div class="content-image-container"><img src="$1" alt="商品图片" class="content-image"/></div>'
       );
       
       // 处理商品链接
@@ -387,11 +397,12 @@ export default {
         }
       } catch (error) {
         console.error("获取商品信息失败：", error);
-        let errorMessage;
-        if (error.code === 'ECONNABORTED' || !error.response) {
-          errorMessage = this.t('common.network_error');
-        } else if (error.response) {
-          switch (error.response.status) {
+        let errorMessage = this.t('common.unknown_error');
+        if (error.code) {
+          switch (error.code) {
+            case 400:
+              errorMessage = this.t('common.bad_request');
+              break;
             case 401:
               errorMessage = this.t('common.auth_error');
               break;
@@ -404,11 +415,10 @@ export default {
             case 500:
               errorMessage = this.t('common.server_error');
               break;
-            default:
-              errorMessage = this.t('common.connect_fail');
+            case -1:  
+              errorMessage = this.t('common.network_error');
+              break;
           }
-        } else {
-          errorMessage = this.t('common.unknown_error');
         }
         
         ElMessage({
@@ -465,11 +475,12 @@ export default {
         console.error("生成文案失败：", error);
         this.responseText = '';
         
-        let errorMessage;
-        if (error.code === 'ECONNABORTED' || !error.response) {
-          errorMessage = this.t('common.network_error');
-        } else if (error.response) {
-          switch (error.response.status) {
+        let errorMessage = this.t('common.unknown_error');
+        if (error.code) {
+          switch (error.code) {
+            case 400:
+              errorMessage = this.t('common.bad_request');
+              break;
             case 401:
               errorMessage = this.t('common.auth_error');
               break;
@@ -482,11 +493,10 @@ export default {
             case 500:
               errorMessage = this.t('common.server_error');
               break;
-            default:
-              errorMessage = this.t('common.generate_fail');
+            case -1:  
+              errorMessage = this.t('common.network_error');
+              break;
           }
-        } else {
-          errorMessage = this.t('common.unknown_error');
         }
         
         ElMessage({
@@ -961,9 +971,12 @@ label {
 /* 确保结果内容区域的样式 */
 .result-content {
   background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  line-height: 1.8;
+  font-size: 1.1rem;
+  color: #333;
 }
 
 /* 添加步骤弹窗样式 */
@@ -1467,5 +1480,74 @@ label {
 
 .product-link:hover::after {
   transform: translateX(4px);
+}
+
+/* 预览按钮和弹出样式 */
+.preview-button-wrapper {
+  position: relative;
+  margin-left: 93px;
+  margin-top: 8px;
+}
+
+.preview-button {
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.preview-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.preview-popup {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
+  z-index: 1000;
+  background: white;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.preview-image {
+  max-width: 300px;
+  max-height: 300px;
+  width: auto;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* 内容区域图片样式 */
+.content-image-container {
+  margin: 16px 0;
+  text-align: center;
+}
+
+.content-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .preview-popup {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .preview-image {
+    max-width: 250px;
+    max-height: 250px;
+  }
 }
 </style>

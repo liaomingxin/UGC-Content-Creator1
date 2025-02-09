@@ -3,6 +3,7 @@ import { createI18n } from 'vue-i18n'
 const messages = {
   en: {
     nav: {
+      home: 'Home',
       title: 'UGC-Content-Creator',
       linkGenerator: 'Link Generator',
       styleMimic: 'Style Mimic',
@@ -142,10 +143,48 @@ const messages = {
       reconnect_num: "current number of connection",
       copy: 'Copy',
       copied: 'Copied'
-    }
+    },
+    home: {
+      title: 'AI-Powered Content Creation',
+      subtitle: 'Transform your product links into engaging content and mimic writing styles with AI assistance',
+      features: {
+        title: 'Our Features',
+        link: {
+          title: 'Link Style Generator',
+          description: 'Convert product links into compelling content automatically',
+          point1: 'Auto-extract product information',
+          point2: 'Multiple style options',
+          point3: 'Multilingual support'
+        },
+        style: {
+          title: 'Style Mimic Generator',
+          description: 'Create content that matches your favorite writing style',
+          point1: 'Scene-based generation',
+          point2: 'Customizable length',
+          point3: 'Sentiment analysis'
+        }
+      },
+      getStarted: 'Get Started'
+    },
+    footer: {
+      copyright: 'UGC-Content-Creator, Inc. All rights reserved.',
+      copyrightTip: 'All rights reserved. No reproduction without permission.',
+      quickLinks: 'Quick Links',
+      exploreMore: 'Explore More',
+      connectWithUs: 'Connect with Us',
+      recipes: 'Recipes',
+      blog: 'Blog',
+      about: 'About Us',
+      products: 'Products',
+      support: 'Support',
+      careers: 'Careers',
+      scrollToTop: 'Back to Top',
+      contactUs: 'Contact Us'
+    },
   },
   zh: {
     nav: {
+      home: '首页',
       title: 'UGC内容创作器',
       linkGenerator: '链接生成',
       styleMimic: '风格仿写',
@@ -291,7 +330,44 @@ const messages = {
       service_not_found: '服务未找到',
       server_error: '服务器错误，请稍后重试',
       unknown_error: '发生未知错误，请稍后重试'
-    }
+    },
+    home: {
+      title: 'AI驱动的内容创作',
+      subtitle: '将商品链接转化为吸引人的内容，用AI助手模仿写作风格',
+      features: {
+        title: '核心功能',
+        link: {
+          title: '链接样式生成器',
+          description: '自动将商品链接转换为引人入胜的内容',
+          point1: '自动提取商品信息',
+          point2: '多种文案风格选择',
+          point3: '多语言支持'
+        },
+        style: {
+          title: '风格仿写生成器',
+          description: '创建与您喜爱的写作风格相匹配的内容',
+          point1: '场景化生成',
+          point2: '自定义长度',
+          point3: '情感倾向分析'
+        }
+      },
+      getStarted: '立即开始'
+    },
+    footer: {
+      copyright: 'UGC内容创作器。保留所有权利。',
+      copyrightTip: '版权所有，未经许可不得转载',
+      quickLinks: '快速链接',
+      exploreMore: '更多探索',
+      connectWithUs: '关注我们',
+      recipes: '食谱',
+      blog: '博客',
+      about: '关于我们',
+      products: '产品',
+      support: '支持',
+      careers: '招聘',
+      scrollToTop: '回到顶部',
+      contactUs: '联系我们'
+    },
   }
 }
 

@@ -11,6 +11,12 @@
       <!-- 导航链接 -->
       <div class="nav-links">
         <button 
+          :class="['nav-link', { active: activeTab === 'home' }]"
+          @click="activeTab = 'home'"
+        >
+          {{ t('nav.home') }}
+        </button>
+        <button 
           :class="['nav-link', { active: activeTab === 'link' }]"
           @click="activeTab = 'link'"
         >
@@ -62,7 +68,28 @@
     </div>
 
     <!-- 内容区域 -->
-    <component :is="currentComponent" />
+    <main class="main-content">
+      <HomePage 
+        v-if="activeTab === 'home'" 
+        @change-tab="activeTab = $event" 
+      />
+      <LinkStyleGenerator v-if="activeTab === 'link'" />
+      <StyleMimicGenerator v-if="activeTab === 'style'" />
+    </main>
+
+    <!-- 悬浮按钮 -->
+    <div class="floating-buttons">
+      <button class="scroll-to-top" @click="scrollToTop" :title="t('footer.scrollToTop')">
+        <svg viewBox="0 0 24 24" width="28" height="28">
+          <path fill="currentColor" d="M12 2l-10 10h6v8h8v-8h6z"/>
+        </svg>
+      </button>
+      <button class="contact-button" @click="showContactInfo" :title="t('footer.contactUs')">
+        <svg viewBox="0 0 24 24" width="28" height="28">
+          <path fill="currentColor" d="M21 1H3c-1.1 0-1.99.9-1.99 2L1 21c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-1 20H4V4h16v17z"/>
+        </svg>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -70,12 +97,14 @@
 import { useI18n } from 'vue-i18n'
 import LinkStyleGenerator from './components/LinkStyleGenerator.vue'
 import StyleMimicGenerator from './components/StyleMimicGenerator.vue'
+import HomePage from './components/HomePage.vue'
 
 export default {
   name: 'App',
   components: {
     LinkStyleGenerator,
-    StyleMimicGenerator
+    StyleMimicGenerator,
+    HomePage
   },
   setup() {
     const { t } = useI18n()
@@ -83,7 +112,7 @@ export default {
   },
   data() {
     return {
-      activeTab: 'link',
+      activeTab: 'home',
       currentLanguage: 'en',
       showContact: false,
       emailCopied: false
@@ -111,6 +140,9 @@ export default {
       } catch (err) {
         console.error('复制失败:', err)
       }
+    },
+    scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   },
   computed: {
@@ -383,5 +415,42 @@ export default {
   line-height: 1.6;
   margin-bottom: 20px;
   text-align: center;
+}
+
+/* 悬浮按钮样式 */
+.floating-buttons {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.floating-buttons button {
+  background-color: #007AFF;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.floating-buttons button:hover {
+  background-color: #0056b3;
+}
+
+.floating-buttons button svg {
+  fill: white;
+}
+
+.floating-buttons button:focus {
+  outline: none;
 }
 </style>
